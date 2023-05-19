@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using WebAPI.Data.Dtos;
 using WebAPI.Services;
+using WebAPI.Validations;
 
 namespace WebAPI.Controllers;
 
@@ -7,22 +10,26 @@ namespace WebAPI.Controllers;
 [Route("api/images")]
 public class ImageController : ControllerBase
 {
-    private readonly ImageProcessor _imageProcessor = new();
+    private readonly ImageProcessor _imageProcessor;
+    private IMapper _mapper;
+    private ImageValidator _imageValidator;
+
+    public ImageController(IMapper mapper, ImageProcessor imageProcessor, ImageValidator imageValidator)
+    {
+        _imageProcessor = imageProcessor;
+        _mapper = mapper;
+        _imageValidator = imageValidator;
+    }
 
     [HttpPost]
-    public async Task<IActionResult> UploadImage ([FromBody] Models.Image image)
+    public async Task<IActionResult> UploadImage ([FromBody] CreateImageDto imageDto)
     {
-        if (image == null || image.Data.Length == 0 || image.Data == null)
-            return BadRequest("Error, none image was found");
-
-
+        Models.Image image = _mapper.Map<Models.Image>(imageDto);
+        
         using (var context = new Data.ImageContext())
         {
-            var existingImage = context.Images.FirstOrDefault(existingImage => existingImage.Name == image.Name);
-            if (existingImage != null)
-            {
-                return Conflict("An image with the same Name already exists");
-            }
+            _imageValidator.ImageNotFound(image);
+            _imageValidator.SameImageName(image);
 
             image.Data = _imageProcessor.ResizeImageToByteArray(image.Data, 800, 600);
             context.Images.Add(image);

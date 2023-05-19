@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "aS8/sxxfkQdtueMUCrXVsqx6WD5+oi/OQZxp9z95Skw2LPnLM7GeVynLgYACHEqQJz6nYLEoLR/xzyDNGqtG3A==",
+  "dgSpecHash": "DXa0D4AMir7wheMsRK9FP/NJsARJeUfsUASooIJnw1BP3HaFIKT4ZIlCj67HNrTzgi5xIuhRW4a1FA1gMkZ+0Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\guilherme.magalhaes\\Documents\\Pessoal\\FIAP\\TechChallenge01\\WebApi\\WebAPI\\WebAPI.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\guilherme.magalhaes\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\guilherme.magalhaes\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
     "C:\\Users\\guilherme.magalhaes\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\guilherme.magalhaes\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\guilherme.magalhaes\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.5\\microsoft.entityframeworkcore.7.0.5.nupkg.sha512",
     "C:\\Users\\guilherme.magalhaes\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.5\\microsoft.entityframeworkcore.abstractions.7.0.5.nupkg.sha512",
     "C:\\Users\\guilherme.magalhaes\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.5\\microsoft.entityframeworkcore.analyzers.7.0.5.nupkg.sha512",
