@@ -10,5 +10,4 @@ public class CreateImageDto
 
     [Required]
     public byte[] Data { get; set; }
-
 }
