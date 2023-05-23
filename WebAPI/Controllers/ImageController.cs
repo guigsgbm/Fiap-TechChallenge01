@@ -24,14 +24,17 @@ public class ImageController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> UploadImage ([FromBody] CreateImageDto imageDto)
     {
-        Models.Image image = _mapper.Map<Models.Image>(imageDto);
+        var image = _mapper.Map<Models.Image>(imageDto);
         
         using (var context = new Data.ImageContext())
         {
-            _imageValidator.ImageNotFound(image);
-            _imageValidator.SameImageName(image);
+            if (_imageValidator.SameImageName(image))
+                return Conflict($"An image with the same Name already exists");
 
-            image.Data = _imageProcessor.ResizeImageToByteArray(image.Data, 800, 600);
+            if (_imageValidator.ImageNotFound(image))
+                return BadRequest($"Error, none image was found");
+
+            image.Data = _imageProcessor.ResizeImageToByteArray(image.Data, 600, 600);
             context.Images.Add(image);
             await context.SaveChangesAsync();
             Console.WriteLine("Upload Succesfully");

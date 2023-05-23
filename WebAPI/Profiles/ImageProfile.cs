@@ -7,6 +7,6 @@ public class ImageProfile : Profile
 {
     public ImageProfile()
     {
-        CreateMap<CreateImageDto, Image>();
+        CreateMap<CreateImageDto, Models.Image>();
     }
 }
