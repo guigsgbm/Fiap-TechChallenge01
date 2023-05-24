@@ -49,3 +49,7 @@ C:\Users\guilherme.magalhaes\Documents\Pessoal\FIAP\TechChallenge01\WebApi\WebAP
 C:\Users\guilherme.magalhaes\Documents\Pessoal\FIAP\TechChallenge01\WebApi\WebAPI\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
 C:\Users\guilherme.magalhaes\Documents\Pessoal\FIAP\TechChallenge01\WebApi\WebAPI\bin\Debug\net6.0\AutoMapper.dll
 C:\Users\guilherme.magalhaes\Documents\Pessoal\FIAP\TechChallenge01\WebApi\WebAPI\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\guilherme.magalhaes\Documents\Pessoal\FIAP\TechChallenge01\WebApi\WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\guilherme.magalhaes\Documents\Pessoal\FIAP\TechChallenge01\WebApi\WebAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\guilherme.magalhaes\Documents\Pessoal\FIAP\TechChallenge01\WebApi\WebAPI\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\guilherme.magalhaes\Documents\Pessoal\FIAP\TechChallenge01\WebApi\WebAPI\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll

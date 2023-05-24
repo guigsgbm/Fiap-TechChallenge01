@@ -1,8 +1,6 @@
 using WebAPI.Data;
 using WebAPI.Services;
 using WebAPI.Validations;
-using Microsoft.AspNetCore.Mvc;
-
 
 var builder = WebApplication.CreateBuilder(args);
 

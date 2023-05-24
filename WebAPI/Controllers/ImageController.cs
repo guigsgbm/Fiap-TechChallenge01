@@ -12,12 +12,12 @@ namespace WebAPI.Controllers;
 [Route("api/images")]
 public class ImageController : ControllerBase
 {
-    private ImageContext _context;
+    private readonly ImageContext _context;
     private readonly ImageProcessor _imageProcessor;
-    private IMapper _mapper;
-    private ImageValidator _imageValidator;
+    private readonly IMapper _mapper;
+    private readonly ImageValidator _imageValidator;
 
-    public ImageController(ImageContext context,IMapper mapper, ImageProcessor imageProcessor, ImageValidator imageValidator)
+    public ImageController(ImageContext context, IMapper mapper, ImageProcessor imageProcessor, ImageValidator imageValidator)
     {
         _context = context;
         _imageProcessor = imageProcessor;
@@ -26,10 +26,10 @@ public class ImageController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> UploadImage ([FromBody] CreateImageDto imageDto)
+    public async Task<IActionResult> UploadImage([FromBody] CreateImageDto imageDto)
     {
         var image = _mapper.Map<Models.Image>(imageDto);
-        
+
         if (_imageValidator.SameImageName(image))
             return Conflict($"An image with the same Name already exists");
 
@@ -39,16 +39,17 @@ public class ImageController : ControllerBase
         image.Data = _imageProcessor.ResizeImageToByteArray(image.Data, 600, 600);
         _context.Images.Add(image);
         await _context.SaveChangesAsync();
-        Console.WriteLine("Upload Succesfully");
 
+        Console.WriteLine("Upload Succesfully");
         return CreatedAtAction(nameof(GetImageByID), new { id = image.Id }, image);
     }
-
 
     [HttpGet]
     public IActionResult GetImages([FromQuery] int skip = 0, [FromQuery] int take = 10)
     {
-        var images = _context.Images.ToList().Skip(skip).Take(take);
+        var images = _mapper.Map<IEnumerable<ReadImageDto>>
+            (_context.Images.ToList().Skip(skip).Take(take));
+
         return Ok(images);
     }
 
@@ -57,10 +58,10 @@ public class ImageController : ControllerBase
     {
         var image = _context.Images.FirstOrDefault(image => image.Id == id);
 
-        if (image != null)
-            return File(image.Data, "image/jpeg");
+        if (image == null)
+            return NotFound();
 
-        return NotFound();
+        return File(image.Data, "image/jpeg");
     }
 
     [HttpPut("{id}")]
@@ -73,11 +74,11 @@ public class ImageController : ControllerBase
 
         _mapper.Map(imageDto, image);
         _context.SaveChanges();
-    
+
         return NoContent();
     }
 
-    [HttpPut("{id}")]
+    [HttpPatch("{id}")]
     public IActionResult PatchImage(int id, JsonPatchDocument<UpdateImageDto> patch)
     {
         var image = _context.Images.FirstOrDefault(image => image.Id == id);
@@ -92,15 +93,22 @@ public class ImageController : ControllerBase
         if (!TryValidateModel(imageToUpdate))
             return ValidationProblem(ModelState);
 
-
         _mapper.Map(imageToUpdate, image);
         _context.SaveChanges();
         return NoContent();
     }
 
+    [HttpDelete("{id}")]
+    public IActionResult DeleteImage(int id)
+    {
+        var image = _context.Images.FirstOrDefault(image => image.Id == id);
 
+        if (image == null)
+            return NotFound();
 
+        _context.Remove(image);
+        _context.SaveChanges();
 
-
+        return NoContent();
+    }
 }
-

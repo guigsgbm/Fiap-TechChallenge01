@@ -10,5 +10,7 @@ public class ImageProfile : Profile
         CreateMap<CreateImageDto, Models.Image>();
         CreateMap<UpdateImageDto, Models.Image>();
         CreateMap<Models.Image, UpdateImageDto>(); 
+        CreateMap<Models.Image, ReadImageDto>();
+        CreateMap<IEnumerable<Models.Image>, ReadImageDto>();
     }
 }
