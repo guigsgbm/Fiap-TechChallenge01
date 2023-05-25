@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using WebAPI.Services;
 
 namespace WebAPI.Models;
 
@@ -16,4 +17,7 @@ public class Image
 
     [Required]
     public byte[] Data { get; set; }
+
+    [Required]
+    public string Path { get; set; }
 }

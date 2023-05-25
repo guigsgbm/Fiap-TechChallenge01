@@ -13,14 +13,14 @@ namespace WebAPI.Controllers;
 public class ImageController : ControllerBase
 {
     private readonly ImageContext _context;
-    private readonly ImageProcessor _imageProcessor;
+    private readonly Services.Services _services;
     private readonly IMapper _mapper;
     private readonly ImageValidator _imageValidator;
 
-    public ImageController(ImageContext context, IMapper mapper, ImageProcessor imageProcessor, ImageValidator imageValidator)
+    public ImageController(ImageContext context, IMapper mapper, Services.Services services, ImageValidator imageValidator)
     {
         _context = context;
-        _imageProcessor = imageProcessor;
+        _services = services;
         _mapper = mapper;
         _imageValidator = imageValidator;
     }
@@ -29,6 +29,7 @@ public class ImageController : ControllerBase
     public async Task<IActionResult> UploadImage([FromBody] CreateImageDto imageDto)
     {
         var image = _mapper.Map<Models.Image>(imageDto);
+        image.Data = Convert.FromBase64String(_services.ImageToBase64(image.Path));
 
         if (_imageValidator.SameImageName(image))
             return Conflict($"An image with the same Name already exists");
@@ -36,7 +37,7 @@ public class ImageController : ControllerBase
         if (_imageValidator.ImageNotFound(image))
             return BadRequest($"Error, none image was found");
 
-        image.Data = _imageProcessor.ResizeImageToByteArray(image.Data, 600, 600);
+        image.Data = _services.ResizeImageToByteArray(image.Data, 600, 600);
         _context.Images.Add(image);
         await _context.SaveChangesAsync();
 
@@ -67,7 +68,7 @@ public class ImageController : ControllerBase
     [HttpPut("{id}")]
     public IActionResult PutImage(int id, [FromBody] UpdateImageDto imageDto)
     {
-        var image = _context.Images.FirstOrDefault(image => image.Id == id);
+        Models.Image image = _context.Images.FirstOrDefault(image => image.Id == id);
 
         if (image == null)
             return NotFound();

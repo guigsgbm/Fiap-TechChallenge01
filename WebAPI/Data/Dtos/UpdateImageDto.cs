@@ -9,5 +9,6 @@ public class UpdateImageDto
     public string Name { get; set; }
 
     [Required]
-    public byte[] Data { get; set; }
+    public string Path { get; set; }
+
 }

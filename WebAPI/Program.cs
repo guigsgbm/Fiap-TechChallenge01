@@ -11,7 +11,7 @@ builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddScoped<ImageProcessor>();
+builder.Services.AddScoped<Services>();
 builder.Services.AddScoped<ImageValidator>();
 builder.Services.AddScoped<ImageContext>();
 

@@ -2,7 +2,7 @@
 
 namespace WebAPI.Services
 {
-    public class ImageProcessor
+    public class Services
     {
         public byte[] ResizeImageToByteArray(byte[] imageData, int width, int heigth)
         {
@@ -21,7 +21,12 @@ namespace WebAPI.Services
                 }
             }
         }
-
+        public string ImageToBase64(string imagePath)
+        {
+            byte[] imageBytes = File.ReadAllBytes(imagePath);
+            string base64String = Convert.ToBase64String(imageBytes);
+            return base64String;
+        }
 
 
     }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "A3TX3DxLg+EqUyD1PimzVgHLxKW8qkajarji6pB1lf4Bm3J3hDUzJ/jMYnPZR2IrVgGT9cL7phU8SqBXQsKmIA==",
+  "dgSpecHash": "2ET6qN8qAxYfhOyHafafCQ8NyvGswY2l+MX2rqJ6b3rCb5VoDtjt6eUeyelrwzAKjE3M2OnskHZ9wpbUZ7Dhxg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\guilherme.magalhaes\\Documents\\Pessoal\\FIAP\\TechChallenge01\\WebApi\\WebAPI\\WebAPI.csproj",
+  "projectFilePath": "C:\\Users\\guilherme.magalhaes\\Documents\\Pessoal\\FIAP\\Fiap-TechChallenge01\\WebAPI\\WebAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\guilherme.magalhaes\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\guilherme.magalhaes\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
