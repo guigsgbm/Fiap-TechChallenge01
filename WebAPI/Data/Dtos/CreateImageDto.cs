@@ -10,5 +10,4 @@ public class CreateImageDto
 
     [Required]
     public string Path { get; set; }
-
 }

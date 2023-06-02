@@ -10,5 +10,4 @@ public class UpdateImageDto
 
     [Required]
     public string Path { get; set; }
-
 }

@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos;
 using WebAPI.Data;
 using WebAPI.Data.Dtos;
 using WebAPI.Services;
 using WebAPI.Validations;
+using System.IO;
+using System.Net.Mime;
 
 namespace WebAPI.Controllers;
 
@@ -29,56 +32,87 @@ public class ImageController : ControllerBase
     public async Task<IActionResult> UploadImage([FromBody] CreateImageDto imageDto)
     {
         var image = _mapper.Map<Models.Image>(imageDto);
-        image.Data = Convert.FromBase64String(_services.ImageToBase64(image.Path));
+        image.Data = Convert.FromBase64String(_services.ImageToBase64(imageDto.Path));
 
-        if (_imageValidator.SameImageName(image))
-            return Conflict($"An image with the same Name already exists");
+       // if (_imageValidator.SameImageName(image))
+          //  return Conflict($"An image with the same Name already exists");
 
-        if (_imageValidator.ImageNotFound(image))
-            return BadRequest($"Error, none image was found");
+        //if (_imageValidator.ImageNotFound(image))
+         //   return BadRequest($"Error, none image was found");
 
-        image.Data = _services.ResizeImageToByteArray(image.Data, 600, 600);
-        _context.Images.Add(image);
-        await _context.SaveChangesAsync();
+        image.Data = _services.ResizeImageToByteArray(image.Data, 400, 400);
 
-        Console.WriteLine("Upload Succesfully");
-        return CreatedAtAction(nameof(GetImageByID), new { id = image.Id }, image);
+        var container = await _context.GetContainerAsync();
+        ItemResponse<Models.Image> imageResponse = await container.CreateItemAsync(image);
+
+        Console.WriteLine($"Upload Succesfully, consumed {imageResponse.RequestCharge} RUs.\n");
+        return CreatedAtAction(nameof(GetImageById), new { id = image.id }, image);
     }
 
     [HttpGet]
-    public IActionResult GetImages([FromQuery] int skip = 0, [FromQuery] int take = 10)
+    public async Task<IActionResult> GetImages([FromQuery] int skip = 0, [FromQuery] int take = 10)
     {
-        var images = _mapper.Map<IEnumerable<ReadImageDto>>
-            (_context.Images.ToList().Skip(skip).Take(take));
+        var container = await _context.GetContainerAsync();
+
+        // GetItemLinqQueryable retorna <dynamic> e não ItemResponse, por isso não tem RequestCharge
+        var imagesResponse = container.GetItemLinqQueryable<dynamic>
+            (allowSynchronousQueryExecution: true)
+            .ToList()
+            .Skip(skip)
+            .Take(take);
+
+        var images = _mapper.Map<IEnumerable<ReadImageDto>>(imagesResponse);
+
+        if (!images.Any())
+            return Ok($"No one item found");
 
         return Ok(images);
     }
-
+    
     [HttpGet("{id}")]
-    public IActionResult GetImageByID(int id)
+    public async Task<IActionResult> GetImageById(string id)
     {
-        var image = _context.Images.FirstOrDefault(image => image.Id == id);
+        var container = _context.GetContainerAsync();
 
-        if (image == null)
+        ItemResponse<Models.Image> imageResponse = 
+            await container.Result.ReadItemAsync<Models.Image>(id, new PartitionKey(id));
+
+        if (imageResponse == null)
             return NotFound();
 
-        return File(image.Data, "image/jpeg");
+        using (MemoryStream stream = new MemoryStream())
+        {
+            Console.WriteLine($"Consumed {imageResponse.RequestCharge} RUs.\n");
+            return File(imageResponse.Resource.Data, "image/jpeg");
+        }
     }
+    
+    
 
     [HttpPut("{id}")]
-    public IActionResult PutImage(int id, [FromBody] UpdateImageDto imageDto)
+    public async Task<IActionResult> PutImageAsync(string id, [FromBody] UpdateImageDto imageDto)
     {
-        Models.Image image = _context.Images.FirstOrDefault(image => image.Id == id);
+        var container = await _context.GetContainerAsync();
+
+        ItemResponse<Models.Image> image =
+                    await container.ReadItemAsync<Models.Image>(id, new PartitionKey(id));
 
         if (image == null)
             return NotFound();
+        
+        var updatedImage = _mapper.Map<Models.Image>(image);
+        updatedImage.Data = Convert.FromBase64String(_services.ImageToBase64(imageDto.Path));
+        updatedImage = _mapper.Map(imageDto, updatedImage);
 
-        _mapper.Map(imageDto, image);
-        _context.SaveChanges();
+        updatedImage.Data = _services.ResizeImageToByteArray(updatedImage.Data, 400, 400);
 
+        var imageResponse = await container.ReplaceItemAsync(updatedImage, updatedImage.id);
+
+        Console.WriteLine($"Put Succesfully, consumed { imageResponse.RequestCharge} RUs.\n");
         return NoContent();
     }
 
+    /*
     [HttpPatch("{id}")]
     public IActionResult PatchImage(int id, JsonPatchDocument<UpdateImageDto> patch)
     {
@@ -98,18 +132,16 @@ public class ImageController : ControllerBase
         _context.SaveChanges();
         return NoContent();
     }
+    */
 
     [HttpDelete("{id}")]
-    public IActionResult DeleteImage(int id)
+    public async Task<IActionResult> DeleteImageAsync(string id)
     {
-        var image = _context.Images.FirstOrDefault(image => image.Id == id);
+        var container = await _context.GetContainerAsync();
 
-        if (image == null)
-            return NotFound();
+        var imageResponse = await container.DeleteItemAsync<Models.Image>(id, new PartitionKey(id));
 
-        _context.Remove(image);
-        _context.SaveChanges();
-
+        Console.WriteLine($"Delete Succesfully, consumed {imageResponse.RequestCharge} RUs.\n");
         return NoContent();
     }
 }
