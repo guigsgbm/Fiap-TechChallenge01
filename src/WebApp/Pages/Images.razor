@@ -1,0 +1,131 @@
+﻿@page "/images"
+@using Microsoft.Extensions.Logging
+@using System.Text.Json
+@using System.Text.Encodings
+
+@inject HttpClient HttpClient
+@inject ILogger<dynamic> Logger
+
+<PageTitle>Stadiums Gallery</PageTitle>
+
+<h1>Stadiums Gallery</h1>
+
+<label for="imageId">Digite o ID da imagem.</label>
+<input id="ImageId" @bind="@ImageId" type="text" />
+
+<button @onclick="GetImage">OK</button>
+
+<img src="@ImageUrl" style="margin: auto; display: block; margin-top: 20px" />
+
+<Microsoft.AspNetCore.Components.Forms.InputFile OnChange="LoadFiles" multiple />
+<label for="category">Enter the Category:</label>
+<input id="category" @bind="@Category" type="text" />
+<button @onclick="UploadFiles">Upload</button>
+
+@if (!uploadFinished)
+{
+    @if (isLoading)
+    {
+        <p>Uploading...</p>
+    }
+    else
+    {
+        <ul>
+            @foreach (var file in loadedFiles)
+            {
+                <li>
+                    <ul>
+                        <li>Name: @file.Name</li>
+                        <li>Size (bytes): @file.Size</li>
+                        <li>Content type: @file.ContentType</li>
+                        <img src="data:image;base64,@Convert.ToBase64String(imageBytes[file])" alt="Image" />
+                    </ul>
+                </li>
+            }
+        </ul>
+    }
+}
+
+@if (uploadFinished)
+{
+    <p>Upload Finished!!!</p>
+}
+
+@code {
+
+    private List<IBrowserFile> loadedFiles = new();
+    private Dictionary<IBrowserFile, byte[]> imageBytes = new();
+    private bool isLoading;
+    private string ImageId { get; set; }
+    private string ImageUrl { get; set; }
+    private string Category { get; set; }
+    private bool uploadFinished;
+
+    public async void GetImage()
+    {
+        var URL = $"https://localhost:7009/api/images/{ImageId}";
+        ImageUrl = URL;
+    }
+
+    private async Task<byte[]> ReadFileContent(IBrowserFile file)
+    {
+        var buffer = new byte[file.Size];
+        await file.OpenReadStream().ReadAsync(buffer);
+        return buffer;
+    }
+
+    private async Task UploadFiles()
+    {
+        isLoading = true;
+
+        foreach (var file in loadedFiles)
+        {
+            try
+            {
+                var image = new CreateImageDto
+                {
+                    Name = file.Name,
+                    Data = await ReadFileContent(await file.RequestImageFileAsync("image/jpeg", 1024, 1024)),
+                    Category = Category
+                };
+
+                uploadFinished = true;
+                using var response = await HttpClient.PostAsJsonAsync("https://localhost:7009/api/images/", image);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("File: {FileName} Error: {Error}", file.Name, ex.Message);
+            }
+        }
+
+        isLoading = false;
+    }
+
+    private async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        loadedFiles.Clear();
+        uploadFinished = false;
+
+        foreach (var file in e.GetMultipleFiles())
+        {
+            try
+            {
+                var bytes = await ReadFileContent(await file.RequestImageFileAsync("image/jpeg", 1024, 1024));
+                imageBytes[file] = bytes;
+                loadedFiles.Add(file);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("File: {FileName} Error: {Error}", file.Name, ex.Message);
+            }
+        }
+    }
+
+    public class CreateImageDto
+    {
+        public string Name { get; set; }
+        public byte[] Data { get; set; }
+        public string Category { get; set; }
+    }
+
+}
