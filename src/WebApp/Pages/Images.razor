@@ -10,17 +10,23 @@
 
 <h1>Stadiums Gallery</h1>
 
-<label for="imageId">Digite o ID da imagem.</label>
-<input id="ImageId" @bind="@ImageId" type="text" />
+<div>
+    <label for="imageId">Digite o ID da imagem.</label>
+    <input id="ImageId" @bind="@ImageId" type="text" />
 
-<button @onclick="GetImage">OK</button>
+    <button @onclick="GetImage">OK</button>
 
-<img src="@ImageUrl" style="margin: auto; display: block; margin-top: 20px" />
+    <img src="@ImageUrl" style="margin: auto; display: block; margin-top: 20px; margin-bottom:20px;" />
+</div>
 
-<Microsoft.AspNetCore.Components.Forms.InputFile OnChange="LoadFiles" multiple />
-<label for="category">Enter the Category:</label>
-<input id="category" @bind="@Category" type="text" />
-<button @onclick="UploadFiles">Upload</button>
+<div>
+    <Microsoft.AspNetCore.Components.Forms.InputFile OnChange="LoadFiles" multiple /> <br />
+
+    <label for="category; s">Enter the Category:</label>
+    <input id="category" @bind="@Category" type="text"/>
+
+    <br /><button @onclick="UploadFiles">Upload</button>
+</div>
 
 @if (!uploadFinished)
 {

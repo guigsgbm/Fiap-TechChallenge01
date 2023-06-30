@@ -19,8 +19,6 @@ namespace WebAPI.Data
             _containerName = _configuration["CosmosDB:ContainerName"];
         }
 
-        
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var endpointUri = _configuration["CosmosDB:Uri"];

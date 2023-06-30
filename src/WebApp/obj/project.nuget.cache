@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "sgHENYJ2V2dfU14p+CrGpYg0rHfAIdZhFbQtOYtubn3LA+0SMKhFVcHRBz23xq+LKR4CINZVi4GEpjfWUoamQQ==",
+  "dgSpecHash": "Pc6xiCX7FFSQ/Y3llw8r+t5co4ItcdEqxi8vTEhTEt37qyHEUf9wL2Zmc4t9wbNdRibBFxgmNejt9jvN7Su+sw==",
   "success": true,
   "projectFilePath": "C:\\Users\\guilherme.magalhaes\\Documents\\Pessoal\\FIAP\\Fiap-TechChallenge01\\src\\WebApp\\WebApp.csproj",
   "expectedPackageFiles": [
@@ -36,6 +36,7 @@
     "C:\\Users\\guilherme.magalhaes\\.nuget\\packages\\microsoft.jsinterop\\6.0.1\\microsoft.jsinterop.6.0.1.nupkg.sha512",
     "C:\\Users\\guilherme.magalhaes\\.nuget\\packages\\microsoft.jsinterop.webassembly\\6.0.1\\microsoft.jsinterop.webassembly.6.0.1.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.net.http.headers\\2.2.0\\microsoft.net.http.headers.2.2.0.nupkg.sha512",
+    "C:\\Users\\guilherme.magalhaes\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.14.0\\microsoft.visualstudio.azure.containers.tools.targets.1.14.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",
     "C:\\Users\\guilherme.magalhaes\\.nuget\\packages\\system.io.pipelines\\6.0.1\\system.io.pipelines.6.0.1.nupkg.sha512",
     "C:\\Users\\guilherme.magalhaes\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",

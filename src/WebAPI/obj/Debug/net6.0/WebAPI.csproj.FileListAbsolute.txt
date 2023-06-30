@@ -218,9 +218,4 @@ C:\Users\guilherme.magalhaes\Documents\Pessoal\FIAP\Fiap-TechChallenge01\src\Web
 C:\Users\guilherme.magalhaes\Documents\Pessoal\FIAP\Fiap-TechChallenge01\src\WebAPI\obj\Debug\net6.0\WebAPI.genruntimeconfig.cache
 C:\Users\guilherme.magalhaes\Documents\Pessoal\FIAP\Fiap-TechChallenge01\src\WebAPI\bin\Debug\net6.0\System.Web.Cors.dll
 C:\Users\guilherme.magalhaes\Documents\Pessoal\FIAP\Fiap-TechChallenge01\src\WebAPI\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
-C:\Users\guilherme.magalhaes\Documents\Pessoal\FIAP\Fiap-TechChallenge01\src\WebAPI\obj\Debug\net6.0\staticwebassets\msbuild.WebAPI.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\guilherme.magalhaes\Documents\Pessoal\FIAP\Fiap-TechChallenge01\src\WebAPI\obj\Debug\net6.0\staticwebassets\msbuild.build.WebAPI.props
-C:\Users\guilherme.magalhaes\Documents\Pessoal\FIAP\Fiap-TechChallenge01\src\WebAPI\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.WebAPI.props
-C:\Users\guilherme.magalhaes\Documents\Pessoal\FIAP\Fiap-TechChallenge01\src\WebAPI\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.WebAPI.props
-C:\Users\guilherme.magalhaes\Documents\Pessoal\FIAP\Fiap-TechChallenge01\src\WebAPI\obj\Debug\net6.0\staticwebassets.pack.json
-C:\Users\guilherme.magalhaes\Documents\Pessoal\FIAP\Fiap-TechChallenge01\src\WebAPI\obj\Debug\net6.0\refint\WebAPI.dll
+C:\Users\guilherme.magalhaes\Documents\Pessoal\FIAP\Fiap-TechChallenge01\src\WebAPI\bin\Debug\net6.0\ref\WebAPI.dll
