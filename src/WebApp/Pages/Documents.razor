@@ -1,0 +1,90 @@
+﻿@page "/documents"
+
+@inject HttpClient HttpClient
+@inject ILogger<dynamic> Logger
+
+<PageTitle>Documents</PageTitle>
+
+<h1>Documents</h1>
+
+<div>
+    <Microsoft.AspNetCore.Components.Forms.InputFile OnChange="LoadFiles" multiple /> <br />
+
+    <br /><button @onclick="UploadFiles">Upload</button>
+</div>
+
+@if (isLoading)
+{
+    <p>Loading...</p>
+}
+
+@if (uploadFinished)
+{
+    <p>Upload Finished!!!</p>
+}
+
+@code {
+
+    private bool isLoading;
+    private bool uploadFinished;
+    private List<IBrowserFile> loadedFiles = new();
+    private string fileName{ get; set; }
+
+    private async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        loadedFiles.Clear();
+        isLoading = true;
+        uploadFinished = false;
+
+        foreach (var file in e.GetMultipleFiles())
+        {
+            try
+            {
+                loadedFiles.Add(file);
+            }
+
+            catch (Exception ex)
+            {
+                Logger.LogError("File: {FileName} Error: {Error}", file.Name, ex.Message);
+            }
+
+        }
+        isLoading = false;
+    }
+
+    private async Task UploadFiles()
+    {
+        uploadFinished = false;
+
+        foreach (var file in loadedFiles)
+        {
+            try
+            {
+                var content = new MultipartFormDataContent();
+                var fileContent = new StreamContent(file.OpenReadStream(file.Size));
+
+                fileContent.Headers.ContentDisposition =
+                new System.Net.Http.Headers.ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = "\"file\"",
+                        FileName = $"\"{file.Name}\""
+                    };
+
+                content.Add(fileContent);
+
+                using var response = await HttpClient.PostAsync(
+                    "https://localhost:7009/api/documents", content);
+
+                uploadFinished = true;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError("File: {FileName} Error: {Error}", file.Name, ex.Message);
+            }
+        }
+
+        uploadFinished = true;
+        isLoading = false;
+    }
+
+}

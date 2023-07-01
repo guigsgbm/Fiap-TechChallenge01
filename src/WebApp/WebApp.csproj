@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\FetchData.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BlazorInputFile" Version="0.2.0" />
     <PackageReference Include="Microsoft.AspNet.Cors" Version="5.2.9" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.1" />

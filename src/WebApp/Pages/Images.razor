@@ -96,7 +96,8 @@
                 };
 
                 uploadFinished = true;
-                using var response = await HttpClient.PostAsJsonAsync("https://localhost:7009/api/images/", image);
+                using var response = await HttpClient.PostAsJsonAsync(
+                    "https://localhost:7009/api/images/", image);
             }
             catch (Exception ex)
             {
