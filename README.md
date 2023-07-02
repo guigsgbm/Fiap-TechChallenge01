@@ -30,4 +30,4 @@ Clone este repositório em sua máquina local usando o comando:
 - WebApp: [https://localhost:7151](http://localhost:7151)
 - WebAPI: [https://localhost:7009](http://localhost:7009)
 
-Certifique-se de que as portas 5151 e 5009 estão disponíveis em sua máquina para acessar as aplicações localmente.
+Certifique-se de que as portas 7151 e 7009 estão disponíveis em sua máquina para acessar as aplicações localmente.
