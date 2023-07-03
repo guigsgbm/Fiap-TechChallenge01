@@ -2,6 +2,10 @@
 
 Este é o repositório do projeto Fiap-TechChallenge01. Para executar o projeto, siga as instruções abaixo.
 
+## Desafio
+
+Desenvolvimento de uma aplicação web com acesso ao banco de dados e ao storage. O projeto deve conter uma Aplicação Web, uma Web API, um banco de dados e um storage hospedados no Azure. O acesso ao banco de dados deverá ser realizado pela API, a aplicação web servirá como Front end.
+
 ## Pré-requisitos
 
 Certifique-se de ter realizado o deploy dos seguintes recursos no Azure:
